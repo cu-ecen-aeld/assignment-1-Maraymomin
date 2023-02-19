@@ -1,23 +1,21 @@
 #! /bin/bash
 
-
-writefile=$1
-writestr=$2
-filedir=$(dirname "$writefile")
-
-if [ $# != 2 ]
+if [ $# -ne 2 ]
 then
-    echo "It must have two arguments"
-    exit 1
-fi 
-
-mkdir -p $filedir
-touch $writefile
-
-if [ ! -f $writefile ]
-then 
-    echo "The $writefile can't be created"
-    exit 1
+	echo "Error"
+exit 1
 fi
 
-echo $writestr > $writefile
+full_directory=` dirname ${writefile}`
+if [ ! -d "$full_directory" ]
+then
+	mkdir -p ${full_directory}
+fi
+
+if touch ${writefile}
+then
+	echo ${writestr} > ${writefile}
+else
+	echo "File dint get created"
+exit 1
+fi
