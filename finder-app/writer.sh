@@ -1,14 +1,24 @@
 #! /bin/bash
 
 
-if [ ! $# -eq 2 ]; then
-	echo "expected two arguments but "$#" was recieved"
-	exit 1
+RITEFILE=${1:-""}
+WRITESTR=${2:-""}
+
+if [ -z "$WRITEFILE" ]; then
+    echo "WRITEFILE must be specified!"
+    exit 1
 fi
 
+if [ -z "$WRITESTR" ]; then
+    echo "Invalid WRITESTR"
+    exit 1
+fi
 
-writerfile=$1
-writerstr=$2
+FILEPATH=$(dirname "$WRITEFILE")
+mkdir -p $FILEPATH
+echo "$WRITESTR" > $WRITEFILE
 
-mkdir -p "$(dirname "$1")" || echo "Could not create directory" || exit 1
-echo "$2" > "$1" || echo "Could not write "$2" into "$1"" || exit 1
+if [ ! -f $WRITEFILE ]; then
+    echo "$WRITEFILE was not created!"
+    exit 1
+fi
