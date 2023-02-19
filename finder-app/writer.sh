@@ -1,24 +1,23 @@
 #! /bin/bash
 
 
-RITEFILE=${1:-""}
-WRITESTR=${2:-""}
+writefile=$1
+writestr=$2
+filedir=$(dirname "$writefile")
 
-if [ -z "$WRITEFILE" ]; then
-    echo "WRITEFILE must be specified!"
+if [ $# != 2 ]
+then
+    echo "It must have two arguments"
+    exit 1
+fi 
+
+mkdir -p $filedir
+touch $writefile
+
+if [ ! -f $writefile ]
+then 
+    echo "The $writefile can't be created"
     exit 1
 fi
 
-if [ -z "$WRITESTR" ]; then
-    echo "Invalid WRITESTR"
-    exit 1
-fi
-
-FILEPATH=$(dirname "$WRITEFILE")
-mkdir -p $FILEPATH
-echo "$WRITESTR" > $WRITEFILE
-
-if [ ! -f $WRITEFILE ]; then
-    echo "$WRITEFILE was not created!"
-    exit 1
-fi
+echo $writestr > $writefile
